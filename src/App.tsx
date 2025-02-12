@@ -1,12 +1,14 @@
-import './App.css'
+import './App.scss'
+import { Button } from './components/Button/Button'
 import { Input } from './components/Input/Input'
 
 function App() {
 
   return (
-    <>
-      <Input></Input>
-    </>
+    <div className='app'>
+      <Input />
+      <Button>Искать</Button>
+    </div>
   )
 }
 

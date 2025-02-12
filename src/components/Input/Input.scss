@@ -1,7 +1,39 @@
-.input {
+.UNInput {
     border-radius: 12px;
     border: none;
     background-color: #EEEEEE;
+    width: 100%;
     min-height: 48px;
-    min-width: 420px;
+    padding-left: 36px;
+    transition: background-color 0.15s ease-in-out;
+    cursor: pointer;
+
+    &:focus {
+        background-color: #E6E6E6;
+    }
+
+    &__wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        max-width: 420px;
+    }
+
+    &__icon-search {
+        position: absolute;
+        transform: translateY(50%);
+        left: 8px;
+        pointer-events: none;
+    }
+
+    &__icon-clear {
+        position: absolute;
+        transform: translateY(50%);
+        right: 8px;
+        cursor: pointer;
+    }
+
+    &::placeholder {
+        color: #9C9C9C;
+    }
 }

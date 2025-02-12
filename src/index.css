@@ -1,6 +1,7 @@
 :root {
   /* SCSS Reset  */
   * {
+    font-family: Arial, sans-serif;
   	padding: 0px;
   	margin: 0px;
   	border: none;
@@ -51,7 +52,6 @@
   input, textarea, button, select {
   	font-family: inherit;
   	font-size: inherit;
-  	color: inherit;
   }
 
   input {
@@ -63,8 +63,6 @@
   button, input[type="submit"] {
   	display: inline-block;
   	box-shadow: none;
-  	background-color: transparent;
-  	background: none;
   	cursor: pointer;
   }
 
