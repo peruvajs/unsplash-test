@@ -1,0 +1,49 @@
+.UNImage__grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+
+  .UNImage__grid-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100vw;
+    max-height: 100vh;
+
+    &-img {
+      display: block;
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    &-loading {
+      color: white;
+      font-size: 20px;
+      position: absolute;
+    }
+  }
+
+  .UNImage__grid-close {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    z-index: 1100;
+  }
+}

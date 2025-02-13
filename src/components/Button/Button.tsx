@@ -3,6 +3,8 @@ import './Button.scss'
 
 export function Button({ children, ...props }: ButtonProps) {
     return (
-        <button className="button" {...props}>{children}</button>
+        <button className="UNButton" {...props}>
+          {children}
+        </button>
     );
 }

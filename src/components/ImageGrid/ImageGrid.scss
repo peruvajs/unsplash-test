@@ -1,0 +1,40 @@
+.UNImage__grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  &-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+  }
+
+  &-item {
+    aspect-ratio: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    @media (max-width: 767px) {
+      width: 114px;
+      height: 114px;
+      min-width: 114px;
+      min-height: 114px;
+    }
+  
+    @media (min-width: 768px) and (max-width: 1279px) {
+      width: 160px;
+      height: 160px;
+      min-width: 160px;
+      min-height: 160px;
+    }
+  
+    @media (min-width: 1280px) {
+      width: 204px;
+      height: 204px;
+      min-width: 204px;
+      min-height: 204px;
+    }
+  }
+}

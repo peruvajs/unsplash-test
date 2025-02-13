@@ -6,6 +6,7 @@
     min-height: 48px;
     padding-left: 36px;
     transition: background-color 0.15s ease-in-out;
+    
     cursor: pointer;
 
     &:focus {
@@ -14,9 +15,14 @@
 
     &__wrapper {
         position: relative;
+        border-radius: 12px;
         display: inline-block;
         width: 100%;
         max-width: 420px;
+
+        &-error {
+            outline: 2px solid rgb(164, 29, 29);
+        }
     }
 
     &__icon-search {

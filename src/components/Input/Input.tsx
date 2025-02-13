@@ -1,31 +1,24 @@
 import SearchIcon from "../../assets/Input/search.svg?react";
 import ClearIcon from "../../assets/Input/clear.svg?react";
 import './Input.scss'
-import { useState } from 'react';
+import { forwardRef } from 'react';
+import { type InputProps } from "../../types/Input";
+import cn from 'classnames';
 
-export function Input() {
-    const [value, setValue] = useState("");
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
-    }
-
-    const clearInput = () => {
-        setValue("");
-    }
-
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ value, onChange, onClear, isError }, ref) => {
     return (
-      <div className="UNInput__wrapper">
+      <div className={cn("UNInput__wrapper", [{"UNInput__wrapper-error": isError}])}>
         <SearchIcon className="UNInput__icon-search" />
-        {value && (
-            <ClearIcon className="UNInput__icon-clear" onClick={clearInput} />
-        )}
+        {value && <ClearIcon className="UNInput__icon-clear" onClick={onClear} />}
         <input 
+          ref={ref} 
           className="UNInput" 
-          placeholder='Телефоны, яблоки, груши...' 
-          value={value}
-          onChange={handleChange}
+          placeholder="Телефоны, яблоки, груши..." 
+          value={value} 
+          onChange={onChange} 
         />
       </div>
     );
   }
+);
