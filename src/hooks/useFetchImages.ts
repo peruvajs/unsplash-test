@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { ImageResponse, ImageResult } from "../types/ImageGrid.d";
 
@@ -8,35 +8,46 @@ const CLIENT_ID = "Ip0XA55zY7b7-d19osq1L5btGg-YCeDZVpnnJjXqHxs";
 export function useFetchImages(query: string) {
   const [images, setImages] = useState<ImageResult[]>([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-  useEffect(() => {
-    if (!query) return;
-    setImages([]);
+  const fetchImages = useCallback(async () => {
+    if (!query || !hasMore) return;
+
     setLoading(true);
+    try {
+      const { data } = await axios.get<ImageResponse>(API_URL, {
+        params: {
+          client_id: CLIENT_ID,
+          query,
+          page,
+          per_page: 10,
+        },
+      });
+
+      setImages((prev) => [...prev, ...data.results]);
+      setHasMore(data.results.length > 0);
+    } catch (error) {
+      console.error("error loading images: ", error);
+    }
+    setLoading(false);
+  }, [query, page, hasMore]);
+
+  useEffect(() => {
+    setImages([]);
+    setPage(1);
+    setHasMore(true);
   }, [query]);
 
   useEffect(() => {
-    if (!query) return;
-
-    async function fetchImages() {
-      try {
-        const { data } = await axios.get<ImageResponse>(API_URL, {
-          params: {
-            client_id: CLIENT_ID,
-            query,
-            page: 1,
-          },
-        });
-
-        setImages(data.results);
-      } catch (error) {
-        console.error("error loading images:", error);
-      }
-      setLoading(false);
-    }
-
     fetchImages();
-  }, [query]);
+  }, [fetchImages]);
 
-  return { images, loading };
+  const loadMore = useCallback(() => {
+    if (!loading && hasMore) {
+      setPage((prev) => prev + 1);
+    }
+  }, [loading, hasMore]);
+
+  return { images, loading, loadMore };
 }

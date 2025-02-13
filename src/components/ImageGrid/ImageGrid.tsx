@@ -1,15 +1,32 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useFetchImages } from "../../hooks/useFetchImages";
 import { ImageModal } from "../ImageModal/ImageModal";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import "./ImageGrid.scss";
-import cn from "classnames";
 
 export function ImageGrid({ query }: { query: string }) {
-  const { images, loading } = useFetchImages(query);
-  const [loadedImages, setLoadedImages] = useState<string[]>([]);
+  const { images, loading, loadMore } = useFetchImages(query);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const observer = useRef<IntersectionObserver | null>(null);
 
-  if (loading) {
+  const lastImageRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          loadMore();
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [loading, loadMore]
+  );
+
+  if (loading && images.length === 0) {
     return <p style={{ color: "#787878" }}>Загрузка...</p>;
   }
 
@@ -20,17 +37,18 @@ export function ImageGrid({ query }: { query: string }) {
   return (
     <>
       <div className="UNImage__grid">
-        {images.map((image) => (
-          <div key={image.id} className="UNImage__grid-item">
-            <img
+        {images.map((image, index) => (
+          <div
+            key={`${image.id}-${index}`}
+            className="UNImage__grid-item"
+            ref={index === images.length - 1 ? lastImageRef : null}
+          >
+            <LazyLoadImage
               src={image.urls.small}
               alt={image.alt_description}
-              className={cn("UNImage__grid-img", {
-                loaded: loadedImages.includes(image.id),
-              })}
-              onLoad={() => setLoadedImages((prev) => [...prev, image.id])}
+              effect="blur"
+              className="UNImage__grid-img"
               onClick={() => setSelectedImage(image.urls.full)}
-              style={{ cursor: "pointer" }}
             />
           </div>
         ))}
