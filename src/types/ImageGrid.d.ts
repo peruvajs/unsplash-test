@@ -13,4 +13,5 @@ export interface ImageResult {
 export interface ImageUrls {
   small: string;
   full: string;
+  thumb: string;
 }

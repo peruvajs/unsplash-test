@@ -8,8 +8,14 @@
     transition: background-color 0.15s ease-in-out;
     border-radius: 12px;
     border: none;
-    
-    &:hover {
+
+    @media (hover: hover) {
+        &:hover {
+            background-color: #C30000;
+        }
+    }
+
+    &:active {
         background-color: #C30000;
     }
 }
