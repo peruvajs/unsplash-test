@@ -39,11 +39,11 @@ export function ImageGrid({ query }: { query: string }) {
   );
 
   if (loading && images.length === 0) {
-    return <p style={{ color: "#787878" }}>Загрузка...</p>;
+    return <p style={{ color: "#787878", paddingLeft: "6px" }}>Загрузка...</p>;
   }
 
   if (images.length === 0) {
-    return <p style={{ color: "#787878" }}>К сожалению, поиск не дал результатов</p>;
+    return <p style={{ color: "#787878", paddingLeft: "6px" }}>К сожалению, поиск не дал результатов</p>;
   }
 
   return (
