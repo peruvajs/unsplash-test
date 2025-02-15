@@ -6,10 +6,9 @@
     min-height: 48px;
     padding-left: 36px;
     transition: background-color 0.15s ease-in-out;
-    
     cursor: pointer;
 
-    &:focus {
+    &:focus, &:hover {
         background-color: #E6E6E6;
     }
 
@@ -37,6 +36,12 @@
         transform: translateY(50%);
         right: 8px;
         cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
+
+        &:focus {
+            outline: none;
+        }
     }
 
     &::placeholder {

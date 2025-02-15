@@ -1,14 +1,26 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useFetchImages } from "../../hooks/useFetchImages";
 import { ImageModal } from "../ImageModal/ImageModal";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
 import "./ImageGrid.scss";
+import "react-lazy-load-image-component/src/effects/black-and-white.css";
 
 export function ImageGrid({ query }: { query: string }) {
   const { images, loading, loadMore } = useFetchImages(query);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const observer = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    if (selectedImage) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedImage]);
 
   const lastImageRef = useCallback(
     (node: HTMLDivElement) => {
@@ -27,11 +39,11 @@ export function ImageGrid({ query }: { query: string }) {
   );
 
   if (loading && images.length === 0) {
-    return <p style={{ color: "#787878" }}>Загрузка...</p>;
+    return <p style={{ color: "#787878", paddingLeft: "6px" }}>Загрузка...</p>;
   }
 
   if (images.length === 0) {
-    return <p style={{ color: "#787878" }}>К сожалению, поиск не дал результатов</p>;
+    return <p style={{ color: "#787878", paddingLeft: "6px" }}>К сожалению, поиск не дал результатов</p>;
   }
 
   return (
@@ -46,8 +58,10 @@ export function ImageGrid({ query }: { query: string }) {
             <LazyLoadImage
               src={image.urls.small}
               alt={image.alt_description}
-              effect="blur"
+              placeholderSrc={image.urls.thumb}
+              effect="black-and-white"
               className="UNImage__grid-img"
+              wrapperClassName="UNImage__grid-img-wrapper"
               onClick={() => setSelectedImage(image.urls.full)}
             />
           </div>

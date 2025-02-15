@@ -1,7 +1,30 @@
 .UNSearchForm {
     display: flex;
+    background-color: white;;
+    z-index: 5;
     gap: 8px;
     width: 100%;
     max-width: 512px;
-    padding-bottom: 32px;
+    position: fixed;
+    padding: 0 16px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    .UNApp.submitted & {
+        top: 0;
+        left: 0;
+        transform: none;
+        max-width: none;
+        justify-content: flex-start;
+        padding: 16px 82px;
+    
+        @media (max-width: 1279px) and (min-width: 768px) {
+            padding: 16px 34px;
+        }
+    
+        @media (max-width: 767px) {
+            padding: 16px 14px;
+        }
+    }
 }

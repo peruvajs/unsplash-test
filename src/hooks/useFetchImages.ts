@@ -21,7 +21,7 @@ export function useFetchImages(query: string) {
           client_id: CLIENT_ID,
           query,
           page,
-          per_page: 10,
+          per_page: 30,
         },
       });
 
