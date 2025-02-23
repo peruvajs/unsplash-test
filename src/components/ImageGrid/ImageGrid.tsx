@@ -3,7 +3,7 @@ import { useFetchImages } from "../../hooks/useFetchImages";
 import { ImageModal } from "../ImageModal/ImageModal";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "./ImageGrid.scss";
-import "react-lazy-load-image-component/src/effects/black-and-white.css";
+import "react-lazy-load-image-component/src/effects/opacity.css";
 
 export function ImageGrid({ query }: { query: string }) {
   const { images, loading, loadMore } = useFetchImages(query);
@@ -12,13 +12,13 @@ export function ImageGrid({ query }: { query: string }) {
 
   useEffect(() => {
     if (selectedImage) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
 
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [selectedImage]);
 
@@ -43,7 +43,11 @@ export function ImageGrid({ query }: { query: string }) {
   }
 
   if (images.length === 0) {
-    return <p style={{ color: "#787878", paddingLeft: "6px" }}>К сожалению, поиск не дал результатов</p>;
+    return (
+      <p style={{ color: "#787878", paddingLeft: "6px" }}>
+        К сожалению, поиск не дал результатов
+      </p>
+    );
   }
 
   return (
@@ -59,17 +63,22 @@ export function ImageGrid({ query }: { query: string }) {
               src={image.urls.small}
               alt={image.alt_description}
               placeholderSrc={image.urls.thumb}
-              effect="black-and-white"
+              effect="opacity"
               className="UNImage__grid-img"
               wrapperClassName="UNImage__grid-img-wrapper"
               onClick={() => setSelectedImage(image.urls.full)}
+              width={image.width}
+              height={image.height}
             />
           </div>
         ))}
       </div>
 
       {selectedImage && (
-        <ImageModal imageUrl={selectedImage} onClose={() => setSelectedImage(null)} />
+        <ImageModal
+          imageUrl={selectedImage}
+          onClose={() => setSelectedImage(null)}
+        />
       )}
     </>
   );
